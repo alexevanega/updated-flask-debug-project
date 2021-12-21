@@ -1,7 +1,6 @@
 .env
-app.db
 Procfile
-requirements.txt
 migrations
 .vscode
 __pycache__
+debug_venv

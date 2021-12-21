@@ -22,8 +22,9 @@ migrate = Migrate(app, db)
 mail = Mail(app)
 
 # Login Config
-login = LoginManager(pp)
-login.login_view = 'login' # Specify what page to load for NON-authenticated Users
+login = LoginManager(app)
+login.login_view = 'login.html' # Specify what page to load for NON-authenticated Users
+
 
 
 

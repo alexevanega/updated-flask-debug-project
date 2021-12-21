@@ -1,4 +1,4 @@
-from debug_project_app import app, Message, mail
+from debug_project_app import app, db, Message, mail
 from flask import render_template, request, redirect, url_for
 
 # Import for Forms
@@ -13,18 +13,18 @@ from flask_login import login_required,login_user, current_user,logout_user
 # Home Route
 @app.route('/')
 def home():
-    posts = Post.query.all
-    returnrender_template("homes.html", posts = posts)
+    posts = Post.query.all()
+    return render_template("home.html", posts = posts)
 
 # Register Route
 @app.route('/register', methods=['GET','POST'])
 def register():
     form = UserInfoForm()
-    if request.method = 'POST' and form.validate():
+    if request.method == 'POST' and form.validate():
         # Get Information
         username = form.username.data
         password = form.password.data
-        email = form.email
+        email = form.email.data
         print("\n",username,password,email)
         # Create an instance of User
         user = User(username,email,password)
@@ -41,15 +41,15 @@ def register():
 @app.route('/posts', methods=['GET','POST'])
 @login_required
 def posts():
-    post = PostForm
+    post = PostForm()
     if request.method == 'POST' and post.validate():
         title = post.title.data
         content = post.content.data
-        user_id = current_user
+        user_id = current_user.id
         print('\n',title,content)
         post = Post(title,content,user_id)
 
-        db.session.add(post,posts)
+        db.session.add(post)
 
         db.session.commit()
         return redirect(url_for('posts'))
@@ -59,7 +59,7 @@ def posts():
 @login_required
 def post_detail(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post_detail.html', post = post)
+    return render_template('post_detail.html', post_detail = post)
 
 
 @app.route('/posts/update/<int:post_id>', methods = ['GET', 'POST'])
