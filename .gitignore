@@ -1,6 +1,6 @@
-.env
 Procfile
 migrations
 .vscode
 __pycache__
 debug_venv
+.env
